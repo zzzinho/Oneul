@@ -1,11 +1,14 @@
 package com.example.oneul.model;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,13 +16,15 @@ import org.springframework.data.annotation.CreatedDate;
 public class UserEntity {
     @Id @GeneratedValue
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)
     private String password;
     @CreatedDate
     private LocalDateTime createdAt;
-
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
+    private Set<Post> posts;
+    
     public Long getId(){
         return this.id;
     }
