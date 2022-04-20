@@ -1,12 +1,21 @@
-# 오늘(ONeul)
-하루살이 SNS
-## 개발 목표
-- Spring Batch를 사용하여 24시간 지난 게시물 삭제
-- Session을 사용한 사용자 관리
-- OOP가 적용된 구조
-## 구조
-## 실행 방법
+# ONeul(오늘)
+One Day Lifetime SNS
+
+## Development Goals
+- Delete post 24 hours old using Spring Batch
+- Managing Logins Using Session
+- Object Oriented Programming 
+- CQRS(Command and Query Responsibility Segregation) Structure
+- RESTful API
+
+## Application Structure
+### Simple CQRS
+<p align="center"><img src="asset/cqrs_normal.jpeg"></p>
+
+## How to run
 ```bash
+git clone {github_url}
 gradle bootJar
 java -jar build/libs/oneul-0.0.1-SNAPSHOT.jar 
 ```
+
