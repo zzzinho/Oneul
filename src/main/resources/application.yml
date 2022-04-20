@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    database: "h2"
+    properties:
+      hibernate:
+        show-sql: true
+        ddl-auto: update
+        hbm2ddl:
+          auto: update
+        format_sql: true
+
+logging:
+  level:
+    web: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
