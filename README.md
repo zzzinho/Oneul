@@ -7,7 +7,8 @@ One Day Lifetime SNS
 - Object Oriented Programming 
 - CQRS(Command and Query Responsibility Segregation) Structure
 - RESTful API
-
+- [Unit Test](https://mangkyu.tistory.com/143)
+  
 ## Application Structure
 ### Simple CQRS
 <p align="center"><img src="asset/cqrs_normal.jpeg" width=700></p>
