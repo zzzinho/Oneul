@@ -15,7 +15,7 @@ One Day Lifetime SNS
 
 ## How to run
 ```bash
-git clone {github_url}
+git clone https://github.com/zzzinho/Oneul.git
 gradle bootJar
 java -jar build/libs/oneul-0.0.1-SNAPSHOT.jar 
 ```
