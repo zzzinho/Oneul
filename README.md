@@ -22,4 +22,4 @@ java -jar build/libs/oneul-0.0.1-SNAPSHOT.jar
 
 ## Next Level
 ### CQRS with separated persistance mechanisms
-<p align="center"><img src="asset/cqrs_premium.png" width=400></p>
+<p align="center"><img src="asset/cqrs_premium.png" width=300></p>
