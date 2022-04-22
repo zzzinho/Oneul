@@ -10,7 +10,7 @@ One Day Lifetime SNS
 
 ## Application Structure
 ### Simple CQRS
-<p align="center"><img src="asset/cqrs_normal.jpeg"></p>
+<p align="center"><img src="asset/cqrs_normal.jpeg" width=700></p>
 
 ## How to run
 ```bash
