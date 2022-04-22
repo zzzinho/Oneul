@@ -2,9 +2,9 @@ package com.example.oneul.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.oneul.DTO.LoginDTO;
-import com.example.oneul.model.UserEntity;
-import com.example.oneul.service.command.UserCommandService;
+import com.example.oneul.domain.user.command.UserCommandService;
+import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.dto.LoginDTO;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

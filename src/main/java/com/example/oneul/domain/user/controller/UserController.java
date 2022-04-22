@@ -1,11 +1,11 @@
-package com.example.oneul.controller;
+package com.example.oneul.domain.user.controller;
 
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.DTO.SignUpDTO;
-import com.example.oneul.model.UserEntity;
-import com.example.oneul.service.command.UserCommandService;
+import com.example.oneul.domain.user.command.UserCommandService;
+import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.dto.SignUpDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

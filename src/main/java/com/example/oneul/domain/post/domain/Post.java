@@ -1,4 +1,4 @@
-package com.example.oneul.model;
+package com.example.oneul.domain.post.domain;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.example.oneul.domain.user.domain.UserEntity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

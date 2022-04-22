@@ -1,4 +1,4 @@
-package com.example.oneul.exception;
+package com.example.oneul.domain.user.exception;
 
 public class UserAlreadyExistException extends RuntimeException {
     public UserAlreadyExistException(String message){

@@ -1,6 +1,6 @@
-package com.example.oneul.handler;
+package com.example.oneul.global.error;
 
-import com.example.oneul.exception.UserAlreadyExistException;
+import com.example.oneul.domain.user.exception.UserAlreadyExistException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

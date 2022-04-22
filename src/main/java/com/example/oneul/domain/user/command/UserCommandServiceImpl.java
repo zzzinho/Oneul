@@ -1,9 +1,9 @@
-package com.example.oneul.service.command;
+package com.example.oneul.domain.user.command;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.model.UserEntity;
-import com.example.oneul.repository.UserCommandRepository;
+import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.repository.UserCommandRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

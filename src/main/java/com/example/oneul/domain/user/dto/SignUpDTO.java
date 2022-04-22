@@ -1,6 +1,6 @@
-package com.example.oneul.DTO;
+package com.example.oneul.domain.user.dto;
 
-import com.example.oneul.model.UserEntity;
+import com.example.oneul.domain.user.domain.UserEntity;
 
 import lombok.Getter;
 

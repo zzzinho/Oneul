@@ -13,6 +13,48 @@ One Day Lifetime SNS
 <p align="center"><img src="asset/cqrs_normal.jpeg" width=700></p>
 <img src="asset/need_graphic_designer.jpeg" width=25>
 
+### Directory Structure
+[Domain Directory Structure](https://github.com/cheese10yun/spring-guide/blob/master/docs/directory-guide.md)
+```
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── onuel
+    │   │               ├── OneulApplication.java
+    │   │               ├── domain
+    │   │               │   ├── user
+    │   │               │   │   ├── controller
+    │   │               │   │   ├── service
+    │   │               │   │   ├── repository
+    │   │               │   │   ├── domain
+    │   │               │   │   ├── dto
+    │   │               │   │   └── exception
+    │   │               │   ├── post
+    │   │               │   │   ├── controller
+    │   │               │   │   ├── service
+    │   │               │   │   ├── repository
+    │   │               │   │   ├── domain
+    │   │               │   │   ├── dto
+    │   │               │   │   └── exception
+    │   │               ├── global
+    │   │                   ├── common
+    │   │                   │   ├── request
+    │   │                   │   └── response
+    │   │                   ├── config
+    │   │                   │   ├── RedisConfig.java
+    │   │                   │   └── security
+    │   │                   │       └── WebSecurityConfig.java 
+    │   │                   ├── error
+    │   │                   │   ├── ErrorResponse.java
+    │   │                   │   ├── GlobalExceptionHandler.java
+    │   │                   │   └── exception
+    │   │                   └── util
+    │   └── resources
+    │       └── application.yml
+
+```
 ## How to run
 ```bash
 git clone https://github.com/zzzinho/Oneul.git

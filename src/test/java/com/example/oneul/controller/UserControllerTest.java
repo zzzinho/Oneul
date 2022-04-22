@@ -6,7 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.oneul.service.command.UserCommandService;
+import com.example.oneul.domain.user.command.UserCommandService;
+import com.example.oneul.domain.user.controller.UserController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 

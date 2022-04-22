@@ -1,8 +1,8 @@
-package com.example.oneul.repository;
+package com.example.oneul.domain.user.repository;
 
 import java.util.Optional;
 
-import com.example.oneul.model.UserEntity;
+import com.example.oneul.domain.user.domain.UserEntity;
 
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.repository.CrudRepository;

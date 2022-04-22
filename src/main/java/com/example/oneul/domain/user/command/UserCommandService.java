@@ -1,8 +1,8 @@
-package com.example.oneul.service.command;
+package com.example.oneul.domain.user.command;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.model.UserEntity;
+import com.example.oneul.domain.user.domain.UserEntity;
 
 import org.springframework.stereotype.Service;
 
