@@ -5,7 +5,7 @@ One Day Lifetime SNS
 - Delete post 24 hours old using Spring Batch
 - Managing Logins Using Session
 - Object Oriented Programming 
-- CQRS(Command and Query Responsibility Segregation) Structure
+- [CQRS(Command and Query Responsibility Segregation) Structure](https://zzzinho.tistory.com/123)
 - RESTful API
 - [Unit Test](https://mangkyu.tistory.com/143)
   
