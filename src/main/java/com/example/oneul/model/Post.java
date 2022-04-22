@@ -1,19 +1,23 @@
 package com.example.oneul.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Post {
     @Id @GeneratedValue
     private Long id;
@@ -64,6 +68,23 @@ public class Post {
     
     public void setWriter(UserEntity writer){
         this.writer = writer;
+    }
+    
+    @Override
+    public boolean equals(Object object){
+        if(this == object) {
+            return true;
+        }
+        if(object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Post that = (Post) object;
+        return this.id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
     
     @Override

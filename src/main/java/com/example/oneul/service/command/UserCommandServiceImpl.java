@@ -1,6 +1,7 @@
 package com.example.oneul.service.command;
 
-import com.example.oneul.exception.UserAlreadyExistException;
+import javax.servlet.http.HttpSession;
+
 import com.example.oneul.model.UserEntity;
 import com.example.oneul.repository.UserCommandRepository;
 
@@ -25,15 +26,15 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public UserEntity signUp(UserEntity userEntity){
-        userCommandRepository.findByUsername(userEntity.getUsername()).ifPresent(user -> {
-            log.debug(user.getUsername() + " is present");
-            throw new UserAlreadyExistException(userEntity.getUsername() + " is already exist.");
-        });
+    public UserEntity signUp(UserEntity userEntity, HttpSession httpSession){
         // ANCHOR: 이게 맞나..?
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        UserEntity user = new UserEntity(userEntity);
-        return userCommandRepository.save(user);
+        UserEntity user = userCommandRepository.save(new UserEntity(userEntity));
+
+        httpSession.setAttribute("user",user);
+        log.info("session id: " + httpSession.getId());
+        log.info("session value: " + httpSession.getAttribute("user"));
+        return user;
     }
 }
 

@@ -1,19 +1,24 @@
 package com.example.oneul.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-public class UserEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class UserEntity implements Serializable {
     @Id @GeneratedValue
     private Long id;
     @Column(nullable = false, unique = true)
@@ -69,6 +74,23 @@ public class UserEntity {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.createdAt = user.getCreatedAt();
+    }
+    
+    @Override
+    public boolean equals(Object object){
+        if(this == object) {
+            return true;
+        }
+        if(object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        UserEntity that = (UserEntity) object;
+        return this.id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
     
     @Override
