@@ -19,6 +19,6 @@ gradle bootJar
 java -jar build/libs/oneul-0.0.1-SNAPSHOT.jar 
 ```
 
-## Next Step
+## Next Level
 ### CQRS with separated persistance mechanisms
 <p align="center"><img src="asset/cqrs_premium.png"></p>

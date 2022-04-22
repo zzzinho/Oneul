@@ -25,6 +25,8 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserEntity writer;
 
+    public Post() {}
+
     public Post(Long id, LocalDateTime createdAt, String content, UserEntity writer){
         this.id = id;
         this.createdAt = createdAt;
@@ -36,16 +38,32 @@ public class Post {
         return this.id;
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
+
     public LocalDateTime getCreatedAt(){
         return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt){
+        this.createdAt = createdAt;
     }
 
     public String getContent(){
         return this.content;
     }
 
+    public void setConent(String content){
+        this.content = content;
+    }
+
     public UserEntity getWriter(){
         return this.writer;
+    }
+    
+    public void setWriter(UserEntity writer){
+        this.writer = writer;
     }
     
     @Override

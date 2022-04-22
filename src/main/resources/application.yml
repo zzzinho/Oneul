@@ -1,6 +1,5 @@
 spring:
   jpa:
-    database: "h2"
     properties:
       hibernate:
         show-sql: true
@@ -8,6 +7,10 @@ spring:
         hbm2ddl:
           auto: update
         format_sql: true
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/test
+    driver-class-name: org.h2.Driver
+    username: "sa"
 
 logging:
   level:
@@ -15,3 +18,4 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
+

@@ -29,16 +29,32 @@ public class UserEntity {
         return this.id;
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
+
     public String getUsername(){
         return this.username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     public String getPassword(){
         return this.password;
     }
 
+    public void setPassword(String password){
+        this.password = password;
+    }
+
     public LocalDateTime getCreatedAt(){
         return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt){
+        this.createdAt = createdAt;
     }
 
     public UserEntity(Long id, String username, String password, LocalDateTime createdAt){
@@ -48,6 +64,13 @@ public class UserEntity {
         this.createdAt = createdAt;
     }
 
+    public UserEntity(UserEntity user){
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.createdAt = user.getCreatedAt();
+    }
+    
     @Override
     public String toString(){
         return "userEntity["
@@ -56,6 +79,10 @@ public class UserEntity {
             + ", createdAt: " + this.createdAt
             + "]";
     }
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder {
         private Long id;
         private String username;
