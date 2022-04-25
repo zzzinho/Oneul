@@ -3,9 +3,9 @@ package com.example.oneul.domain.user.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.domain.user.command.UserCommandService;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.domain.user.dto.SignUpDTO;
+import com.example.oneul.domain.user.service.UserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
-    private final UserCommandService userCommandService;
+    private final UserService userCommandService;
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserCommandService userCommandService){
+    public UserController(UserService userCommandService){
         this.userCommandService = userCommandService;
     }
 

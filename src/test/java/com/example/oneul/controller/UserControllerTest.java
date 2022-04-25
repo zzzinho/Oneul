@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.oneul.domain.user.command.UserCommandService;
 import com.example.oneul.domain.user.controller.UserController;
+import com.example.oneul.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -29,7 +29,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class UserControllerTest {
     private MockMvc mvc;
     @Autowired
-    private UserCommandService userCommandService;
+    private UserService userCommandService;
     private MockHttpSession httpSession = new MockHttpSession();
 
     @BeforeEach

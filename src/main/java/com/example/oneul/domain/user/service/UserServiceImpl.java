@@ -54,6 +54,8 @@ public class UserServiceImpl implements UserService {
     public void logout(UserEntity userEntity, HttpSession httpSession){
         UserEntity user = (UserEntity) httpSession.getAttribute("user");
         if(user == null) return ;
+        log.info("session id: " + httpSession.getId());
+        log.info("session value: " + httpSession.getAttribute("user"));
         httpSession.removeAttribute("user");
     }
 }
