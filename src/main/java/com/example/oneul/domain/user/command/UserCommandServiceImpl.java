@@ -3,7 +3,7 @@ package com.example.oneul.domain.user.command;
 import javax.servlet.http.HttpSession;
 
 import com.example.oneul.domain.user.domain.UserEntity;
-import com.example.oneul.domain.user.repository.UserCommandRepository;
+import com.example.oneul.domain.user.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserCommandServiceImpl implements UserCommandService {
-    private final UserCommandRepository userCommandRepository;
+    private final UserRepository userRepository;
     private final Logger log = LoggerFactory.getLogger(UserCommandServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
 
-    public UserCommandServiceImpl(UserCommandRepository userCommandRepository, PasswordEncoder passwordEncoder){
-        this.userCommandRepository = userCommandRepository;
+    public UserCommandServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -29,7 +29,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     public UserEntity signUp(UserEntity userEntity, HttpSession httpSession){
         // ANCHOR: 이게 맞나..?
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        UserEntity user = userCommandRepository.save(new UserEntity(userEntity));
+        UserEntity user = userRepository.save(new UserEntity(userEntity));
 
         httpSession.setAttribute("user",user);
         log.info("session id: " + httpSession.getId());
@@ -40,6 +40,9 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Override
     public UserEntity login(UserEntity userEntity, HttpSession httpSession){
         UserEntity user = (UserEntity) httpSession.getAttribute("user");
+        if(user == null){
+            user = userRepository.findByUsernameAndPassword(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()));
+        }
         return user;
     }
 
