@@ -2,9 +2,9 @@ package com.example.oneul.domain.user.service;
 
 import javax.servlet.http.HttpSession;
 
+import com.example.oneul.domain.user.dao.UserRepository;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
-import com.example.oneul.domain.user.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public UserEntity signUp(UserEntity userEntity, HttpSession httpSession){
+    public UserEntity signUp(UserEntity userEntity){
         UserEntity user = UserEntity.builder().username(userEntity.getUsername())
                                               .password(
                                                   passwordEncoder.encode(userEntity.getPassword()))

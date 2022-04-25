@@ -25,9 +25,8 @@ public class UserCommandServiceTest {
 
     @Test
     public void signUpTest(){
-        httpSession = new MockHttpSession();
         LoginDTO loginDTO = new LoginDTO("zzzinho", "password");
-        UserEntity user = userCommandService.signUp(loginDTO.toEntity(), httpSession);
+        UserEntity user = userCommandService.signUp(loginDTO.toEntity());
         assertEquals(loginDTO.getUsername(), user.getUsername());
         assertEquals(true, passwordEncoder.matches(loginDTO.getPassword(), user.getPassword()));
     }

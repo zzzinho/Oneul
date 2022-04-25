@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    UserEntity signUp(UserEntity userEntity, HttpSession httpSession);
+    UserEntity signUp(UserEntity userEntity);
     UserEntity login(UserEntity userEntity , HttpSession httpSession);
     void logout(HttpSession httpSession);
 }
