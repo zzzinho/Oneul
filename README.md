@@ -35,6 +35,8 @@ One Day Lifetime SNS
     │   │               │   ├── post
     │   │               │   │   ├── controller
     │   │               │   │   ├── service
+    │   │               │   │   │   ├── command
+    │   │               │   │   │   └── query                            
     │   │               │   │   ├── repository
     │   │               │   │   ├── domain
     │   │               │   │   ├── dto
