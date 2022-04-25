@@ -1,4 +1,4 @@
-package com.example.oneul.domain.user.command;
+package com.example.oneul.domain.user.service;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserCommandServiceImpl implements UserCommandService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final Logger log = LoggerFactory.getLogger(UserCommandServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
 
-    public UserCommandServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -51,8 +51,10 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
-    public UserEntity logout(UserEntity userEntity, HttpSession httpSession){
-        return new UserEntity();
+    public void logout(UserEntity userEntity, HttpSession httpSession){
+        UserEntity user = (UserEntity) httpSession.getAttribute("user");
+        if(user == null) return ;
+        httpSession.removeAttribute("user");
     }
 }
 
