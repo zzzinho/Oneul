@@ -1,4 +1,4 @@
-package com.example.oneul.domain.user.repository;
+package com.example.oneul.domain.user.dao;
 
 import java.util.Optional;
 

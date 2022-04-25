@@ -6,7 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.oneul.domain.user.controller.UserController;
+import com.example.oneul.domain.user.api.UserApi;
+import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,21 +23,30 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @SpringBootTest
+@Transactional
 @AutoConfigureMockMvc
 public class UserControllerTest {
     private MockMvc mvc;
     @Autowired
-    private UserService userCommandService;
+    private UserService userService;
     private MockHttpSession httpSession = new MockHttpSession();
 
     @BeforeEach
     public void setUp(){
-        mvc = MockMvcBuilders.standaloneSetup(new UserController(userCommandService))
+        mvc = MockMvcBuilders.standaloneSetup(new UserApi(userService))
             .addFilters(new CharacterEncodingFilter("UTF-8", true))
             .build();
+    }
+
+    private UserEntity createTestUser(String username, String password){
+        return userService.signUp(UserEntity.builder()
+                                            .username(username)
+                                            .password(password)
+                                            .build());
     }
 
     @Test
@@ -56,6 +66,28 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(json)
+        );
+        
+        actions.andExpectAll(status().isOk());
+    }
+
+    @Test
+    @DisplayName("login test")
+    public void loginTest() throws Exception {
+        UserEntity user = createTestUser("testuser", "testpw");
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("username", user.getUsername());
+        requestBody.put("password", "testpw");
+        String json = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(requestBody);
+
+        final ResultActions actions = mvc.perform(
+            post("/user/login/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .session(httpSession)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(json)          
         );
         
         actions.andExpectAll(status().isOk());
