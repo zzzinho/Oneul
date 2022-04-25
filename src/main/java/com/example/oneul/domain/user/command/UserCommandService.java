@@ -9,4 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserCommandService {
     UserEntity signUp(UserEntity userEntity, HttpSession httpSession);
+    UserEntity login(UserEntity userEntity , HttpSession httpSession);
+    UserEntity logout(UserEntity userEntity, HttpSession httpSession);
 }

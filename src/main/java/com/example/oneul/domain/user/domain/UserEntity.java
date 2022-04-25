@@ -64,6 +64,8 @@ public class UserEntity implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public UserEntity() {}
+    
     public UserEntity(Long id, String username, String password, LocalDateTime createdAt){
         this.id = id;
         this.username = username;

@@ -36,5 +36,16 @@ public class UserCommandServiceImpl implements UserCommandService {
         log.info("session value: " + httpSession.getAttribute("user"));
         return user;
     }
+
+    @Override
+    public UserEntity login(UserEntity userEntity, HttpSession httpSession){
+        UserEntity user = (UserEntity) httpSession.getAttribute("user");
+        return user;
+    }
+
+    @Override
+    public UserEntity logout(UserEntity userEntity, HttpSession httpSession){
+        return new UserEntity();
+    }
 }
 
