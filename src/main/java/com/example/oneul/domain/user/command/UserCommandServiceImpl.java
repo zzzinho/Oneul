@@ -3,6 +3,7 @@ package com.example.oneul.domain.user.command;
 import javax.servlet.http.HttpSession;
 
 import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
 import com.example.oneul.domain.user.repository.UserRepository;
 
 import org.slf4j.Logger;
@@ -27,22 +28,25 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public UserEntity signUp(UserEntity userEntity, HttpSession httpSession){
-        // ANCHOR: 이게 맞나..?
-        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        UserEntity user = userRepository.save(new UserEntity(userEntity));
-
-        httpSession.setAttribute("user",user);
-        log.info("session id: " + httpSession.getId());
-        log.info("session value: " + httpSession.getAttribute("user"));
-        return user;
+        UserEntity user = UserEntity.builder().username(userEntity.getUsername())
+                                              .password(
+                                                  passwordEncoder.encode(userEntity.getPassword()))
+                                              .build();
+        return userRepository.save(user);
     }
 
     @Override
     public UserEntity login(UserEntity userEntity, HttpSession httpSession){
         UserEntity user = (UserEntity) httpSession.getAttribute("user");
         if(user == null){
-            user = userRepository.findByUsernameAndPassword(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()));
+            user = userRepository.findByUsernameAndPassword(
+                userEntity.getUsername(), 
+                passwordEncoder.encode(userEntity.getPassword()))
+                .orElseThrow(() -> new WrongUsernameAndPasswordException("wrong username and password"));
         }
+        httpSession.setAttribute("user",user);
+        log.info("session id: " + httpSession.getId());
+        log.info("session value: " + httpSession.getAttribute("user"));
         return user;
     }
 
