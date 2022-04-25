@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     UserEntity signUp(UserEntity userEntity, HttpSession httpSession);
     UserEntity login(UserEntity userEntity , HttpSession httpSession);
-    void logout(UserEntity userEntity, HttpSession httpSession);
+    void logout(HttpSession httpSession);
 }

@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void logout(UserEntity userEntity, HttpSession httpSession){
+    public void logout(HttpSession httpSession){
         UserEntity user = (UserEntity) httpSession.getAttribute("user");
         if(user == null) return ;
         log.info("session id: " + httpSession.getId());

@@ -1,4 +1,4 @@
-package com.example.oneul.domain.user.controller;
+package com.example.oneul.domain.user.api;
 
 
 import javax.servlet.http.HttpSession;
@@ -17,17 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserApi {
     private final UserService userCommandService;
 
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final Logger log = LoggerFactory.getLogger(UserApi.class);
 
-    public UserController(UserService userCommandService){
+    public UserApi(UserService userCommandService){
         this.userCommandService = userCommandService;
     }
 
     @RequestMapping(value="/", method=RequestMethod.POST)
     public UserEntity signUp(@RequestBody SignUpDTO signUpDTO, HttpSession httpSession) {
+        // TODO: password1, password2 같은지 검사
         UserEntity user = userCommandService.signUp(signUpDTO.toEntity(), httpSession);
         return user;
     }
