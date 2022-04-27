@@ -62,7 +62,7 @@ One Day Lifetime SNS
 ```bash
 git clone https://github.com/zzzinho/Oneul.git
 gradle bootJar
-java -jar build/libs/oneul-0.0.1-SNAPSHOT.jar 
+docker compose up --build -d
 ```
 
 ## Next Level
