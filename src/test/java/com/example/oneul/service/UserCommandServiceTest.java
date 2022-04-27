@@ -7,15 +7,18 @@ import com.example.oneul.domain.user.dto.LoginDTO;
 import com.example.oneul.domain.user.service.UserService;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+
+@Testcontainers
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 public class UserCommandServiceTest {
     @Autowired
     private UserService userCommandService;
@@ -23,6 +26,15 @@ public class UserCommandServiceTest {
     private PasswordEncoder passwordEncoder;
     protected MockHttpSession httpSession;
 
+    static {
+        GenericContainer redis = new GenericContainer("redis:3-alpine")
+                .withExposedPorts(6379);
+        redis.start();
+
+        System.setProperty("spring.redis.host", redis.getContainerIpAddress());
+        System.setProperty("spring.redis.port", redis.getFirstMappedPort() + "");
+    }
+    
     @Test
     public void signUpTest(){
         LoginDTO loginDTO = new LoginDTO("zzzinho", "password");

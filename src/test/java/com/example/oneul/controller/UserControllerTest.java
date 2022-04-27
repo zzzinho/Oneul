@@ -16,19 +16,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Testcontainers
 @SpringBootTest
-@Transactional
-@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class UserControllerTest {
     private MockMvc mvc;
     @Autowired
@@ -42,6 +43,15 @@ public class UserControllerTest {
             .build();
     }
 
+    static {
+        GenericContainer redis = new GenericContainer("redis:3-alpine")
+                .withExposedPorts(6379);
+        redis.start();
+
+        System.setProperty("spring.redis.host", redis.getContainerIpAddress());
+        System.setProperty("spring.redis.port", redis.getFirstMappedPort() + "");
+    }
+    
     private UserEntity createTestUser(String username, String password){
         return userService.signUp(UserEntity.builder()
                                             .username(username)
@@ -60,7 +70,7 @@ public class UserControllerTest {
         String json = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(requestBody);
 
         final ResultActions actions = mvc.perform(
-            post("/user/")
+            post("/user/signup/")
                 .contentType(MediaType.APPLICATION_JSON)  
                 .session(httpSession)
                 .accept(MediaType.APPLICATION_JSON)

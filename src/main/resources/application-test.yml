@@ -1,0 +1,30 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    properties:
+      hibernate:  
+        show-sql: true
+        ddl-auto: "update"
+        hbm2ddl:
+          auto: update
+        format_sql: true
+  datasource:
+    url: jdbc:tc:mysql://localhost:3306/oneul
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+  redis:
+    host: localhost
+    port: 6379
+
+server:
+    servlet:
+        session:
+            timeout: 60
+
+logging:
+  level:
+    web: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
