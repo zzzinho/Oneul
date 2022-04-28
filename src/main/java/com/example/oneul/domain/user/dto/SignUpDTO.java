@@ -1,13 +1,18 @@
 package com.example.oneul.domain.user.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import com.example.oneul.domain.user.domain.UserEntity;
 
 import lombok.Getter;
 
 @Getter
 public class SignUpDTO {
+    @NotBlank
     private String username;
+    @NotBlank
     private String password1;
+    @NotBlank
     private String password2;
 
     public void setUsername(String username ){

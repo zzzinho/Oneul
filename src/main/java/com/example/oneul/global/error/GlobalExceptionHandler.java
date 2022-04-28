@@ -1,6 +1,7 @@
 package com.example.oneul.global.error;
 
 import com.example.oneul.domain.user.exception.UserAlreadyExistException;
+import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +14,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected String handleException(Exception e){
-        log.debug(e.getMessage());
+        log.info(e.getMessage());
         return e.toString();
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
     protected String handleUserAlreadyExistException(UserAlreadyExistException e){
-        log.debug(e.getMessage());
+        log.info(e.getMessage());
+        return e.toString();
+    }
+
+    @ExceptionHandler(WrongUsernameAndPasswordException.class)
+    protected String handleWrongUsernameAndPasswordException(WrongUsernameAndPasswordException e){
+        log.info(e.getMessage());
         return e.toString();
     }
 }

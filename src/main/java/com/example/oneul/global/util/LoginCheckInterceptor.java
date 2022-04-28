@@ -8,14 +8,16 @@ import com.example.oneul.domain.user.domain.UserEntity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 public class LoginCheckInterceptor implements HandlerInterceptor{
-    @Value("${login-page}")
     private String loginPage;
-
     private final Logger log = LoggerFactory.getLogger(LoginCheckInterceptor.class);
+
+    public LoginCheckInterceptor(String loginPage){
+        this.loginPage = loginPage;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("login check prehandler");

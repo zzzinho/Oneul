@@ -31,4 +31,4 @@ logging:
       hibernate:
         SQL: DEBUG
 
-log-in-page: www.naver.com
+login-page: https://www.google.com
