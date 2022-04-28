@@ -37,16 +37,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity login(UserEntity userEntity, HttpSession httpSession){
-        UserEntity user = (UserEntity) httpSession.getAttribute("user");
-        if(user == null){
-            user = userRepository.findByUsernameAndPassword(
-                userEntity.getUsername(), 
-                passwordEncoder.encode(userEntity.getPassword()))
-                .orElseThrow(() -> new WrongUsernameAndPasswordException("wrong username and password"));
+        UserEntity user =  userRepository.findByUsername(userEntity.getUsername())
+                                         .orElseThrow(() -> new WrongUsernameAndPasswordException("wrong username"));
+
+        if(passwordEncoder.matches(userEntity.getPassword(), user.getPassword())){
+            log.info("login user: " + userEntity.toString());
+            httpSession.setAttribute("user",user);
+            log.info("session id: " + httpSession.getId());
+            log.info("session value: " + httpSession.getAttribute("user"));
+        } else {
+            throw new WrongUsernameAndPasswordException("wrong passowrd");
         }
-        httpSession.setAttribute("user",user);
-        log.info("session id: " + httpSession.getId());
-        log.info("session value: " + httpSession.getAttribute("user"));
+        
         return user;
     }
 

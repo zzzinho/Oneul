@@ -82,7 +82,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("login test")
+    @DisplayName("success login test")
     public void loginTest() throws Exception {
         UserEntity user = createTestUser("testuser", "testpw");
 
@@ -101,5 +101,27 @@ public class UserControllerTest {
         );
         
         actions.andExpectAll(status().isOk());
+    }
+
+    @Test
+    @DisplayName("fail login test")
+    public void failLoginTest() throws Exception{
+        UserEntity user = createTestUser("testuser", "testpw");
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("username", user.getUsername());
+        requestBody.put("password", "testw");
+        String json = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(requestBody);
+
+        final ResultActions actions = mvc.perform(
+            post("/user/login/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .session(httpSession)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(json)          
+        );
+        
+        actions.andExpectAll(status().isNotFound());   
     }
 }
