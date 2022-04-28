@@ -54,6 +54,7 @@ One Day Lifetime SNS
     │   │                   │   ├── GlobalExceptionHandler.java
     │   │                   │   └── exception
     │   │                   └── util
+    │   │                       ├── LoginCheckInterceptor.java
     │   └── resources
     │       └── application.yml
 
