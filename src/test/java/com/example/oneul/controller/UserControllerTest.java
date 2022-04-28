@@ -124,4 +124,10 @@ public class UserControllerTest {
         
         actions.andExpectAll(status().isNotFound());   
     }
+
+    @Test
+    @DisplayName("logout test")
+    public void logoutTest() throws Exception {
+        
+    }
 }

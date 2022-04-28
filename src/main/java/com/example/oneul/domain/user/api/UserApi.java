@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserApi {
@@ -46,6 +47,11 @@ public class UserApi {
     public String logout(HttpSession httpSession) {
         userService.logout(httpSession);
         return "logout";
+    }
+    
+    @RequestMapping(value="", method=RequestMethod.GET)
+    public String hello() {
+        return "hello";
     }
     
 }
