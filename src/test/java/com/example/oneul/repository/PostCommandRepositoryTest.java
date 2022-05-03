@@ -3,13 +3,18 @@ package com.example.oneul.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.example.oneul.domain.post.dao.PostCommandRepository;
+import com.example.oneul.domain.post.dao.PostQueryRepository;
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.dao.UserRepository;
 import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.global.config.JdbcConfig;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -17,8 +22,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest
-public class PostCommandServiceTest {
-    @Autowired private PostCommandRepository postCommandRepository;
+public class PostCommandRepositoryTest {
+    private PostCommandRepository postCommandRepository;
+    @Autowired private PostQueryRepository postQueryRepository;
     @Autowired private UserRepository userRepository;
 
     static {
@@ -30,6 +36,12 @@ public class PostCommandServiceTest {
         System.setProperty("spring.redis.port", redis.getFirstMappedPort() + "");
     }
     
+    @BeforeAll
+    public void init(){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(JdbcConfig.class);
+        postCommandRepository = ac.getBean("postCommandRepository", PostCommandRepository.class);
+    }
+
     private UserEntity createTestUser(){
         return userRepository.save(UserEntity.builder()
                                              .username("test user")
@@ -46,8 +58,8 @@ public class PostCommandServiceTest {
                         .writer(testUser)
                         .build();
 
-        Post createdPost = postCommandRepository.save(post);
-        
+        post = postCommandRepository.save(post);
+        Post createdPost = postQueryRepository.findById(post.getId()).orElse(new Post());
         assertEquals(false, createdPost.getId() == null);
         assertEquals(post, createdPost);
     }
@@ -80,7 +92,20 @@ public class PostCommandServiceTest {
                         .build();
 
         Post createdPost = postCommandRepository.save(post);   
-        Long id = createdPost.getId();
-        postCommandRepository.delete(id);
+        postCommandRepository.delete(createdPost);
+    }
+
+    @Test
+    public void deleteByIdTest(){
+        UserEntity testUser = createTestUser();
+
+        Post post = Post.builder()
+                        .content("test content")
+                        .writer(testUser)
+                        .build();
+
+        Post createdPost = postCommandRepository.save(post);   
+        System.out.println("post id: " + post.getId());
+        postCommandRepository.deleteById(createdPost.getId());
     }
 }

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public class PostQueryRepositoryImpl implements PostCommandRepository {
+public class PostCommandJpaRepositoryImpl implements PostCommandRepository {
     private final EntityManager em;
 
-    public PostQueryRepositoryImpl(EntityManagerFactory entityManagerFactory){
+    public PostCommandJpaRepositoryImpl(EntityManagerFactory entityManagerFactory){
         this.em = entityManagerFactory.createEntityManager();
     }
 
@@ -32,9 +32,15 @@ public class PostQueryRepositoryImpl implements PostCommandRepository {
     }
 
     @Override
-    public void delete(Long id){
-        em.createQuery("delete from Post where id = :id")
-          .setParameter("id", id)
-          .executeUpdate();
+    public void deleteById(Long id){
+        Post post = em.createQuery("select p from Post p where p.id = :id", Post.class)
+                      .setParameter("id", id)
+                      .getSingleResult();
+        delete(post);
+    }
+
+    @Override
+    public void delete(Post post){
+        em.remove(post);
     }
 }
