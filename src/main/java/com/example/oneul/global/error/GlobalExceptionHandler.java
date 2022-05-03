@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<String> handleException(Exception e){
         log.info(e.getMessage());
-        return new ResponseEntity<>("invalid request", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("invalid request", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
