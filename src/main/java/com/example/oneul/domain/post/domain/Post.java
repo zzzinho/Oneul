@@ -30,7 +30,7 @@ public class Post {
     @Access(AccessType.PROPERTY)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserEntity writer;
-
+    
     public Post() {}
 
     public Post(Long id, LocalDateTime createdAt, String content, UserEntity writer){
@@ -99,6 +99,10 @@ public class Post {
             + "]";
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     public static class Builder {
         private Long id;
         private String content;
