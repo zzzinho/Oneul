@@ -1,6 +1,5 @@
 package com.example.oneul.domain.user.api;
 
-
 import javax.servlet.http.HttpSession;
 
 import com.example.oneul.domain.user.domain.UserEntity;
@@ -14,10 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-
-
-
 
 @RestController
 @RequestMapping(value = "/user")
@@ -34,17 +29,20 @@ public class UserApi {
     public UserEntity signUp(@RequestBody SignUpDTO signUpDTO) {
         // TODO: password1, password2 같은지 검사
         UserEntity user = userService.signUp(signUpDTO.toEntity());
+        log.info("signUp: " + user.toString());
         return user;
     }
 
     @RequestMapping(value="/login/", method=RequestMethod.POST)
     public UserEntity login(HttpSession httpSession, @RequestBody LoginDTO loginDTO) {
         UserEntity user = userService.login(loginDTO.toEntity(), httpSession);
+        log.info("login: " + user.toString());
         return user;
     }
     
     @RequestMapping(value="/logout/", method=RequestMethod.POST)
     public String logout(HttpSession httpSession) {
+        log.info("logout: " + httpSession.toString());
         userService.logout(httpSession);
         return "logout";
     }
