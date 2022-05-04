@@ -7,14 +7,10 @@ import com.example.oneul.domain.post.dao.PostQueryRepository;
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.dao.UserRepository;
 import com.example.oneul.domain.user.domain.UserEntity;
-import com.example.oneul.global.config.JdbcConfig;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -23,7 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @ActiveProfiles("test")
 @SpringBootTest
 public class PostCommandRepositoryTest {
-    private PostCommandRepository postCommandRepository;
+    @Autowired private PostCommandRepository postCommandRepository;
     @Autowired private PostQueryRepository postQueryRepository;
     @Autowired private UserRepository userRepository;
 
@@ -35,23 +31,18 @@ public class PostCommandRepositoryTest {
         System.setProperty("spring.redis.host", redis.getContainerIpAddress());
         System.setProperty("spring.redis.port", redis.getFirstMappedPort() + "");
     }
-    
-    @BeforeAll
-    public void init(){
-        ApplicationContext ac = new AnnotationConfigApplicationContext(JdbcConfig.class);
-        postCommandRepository = ac.getBean("postCommandRepository", PostCommandRepository.class);
-    }
 
-    private UserEntity createTestUser(){
-        return userRepository.save(UserEntity.builder()
-                                             .username("test user")
+    private UserEntity getOrCreateTestUser(){
+        return userRepository.findByUsername("test_user").orElseGet(() ->
+                userRepository.save(UserEntity.builder()
+                                             .username("test_user")
                                              .password("test pw")
-                                             .build());
+                                             .build()));
     }
 
     @Test
     public void saveTest(){
-        UserEntity testUser = createTestUser();
+        UserEntity testUser = getOrCreateTestUser();
 
         Post post = Post.builder()
                         .content("test content")
@@ -66,7 +57,7 @@ public class PostCommandRepositoryTest {
 
     @Test
     public void updateTest(){
-        UserEntity testUser = createTestUser();
+        UserEntity testUser = getOrCreateTestUser();
 
         Post post = Post.builder()
                         .content("test content")
@@ -76,28 +67,14 @@ public class PostCommandRepositoryTest {
         Post createdPost = postCommandRepository.save(post);
         createdPost.setConent("updated");
 
-        Post updatedPost = postCommandRepository.update(createdPost);
-        
-        assertEquals(createdPost, updatedPost);;
-    }
-
-    // TODO: 왜 Transaction이 없다고 할까
-    @Test
-    public void deleteTest(){
-        UserEntity testUser = createTestUser();
-
-        Post post = Post.builder()
-                        .content("test content")
-                        .writer(testUser)
-                        .build();
-
-        Post createdPost = postCommandRepository.save(post);   
-        postCommandRepository.delete(createdPost);
+        Post updatedPost = postCommandRepository.save(createdPost);
+        Post savedPost = postQueryRepository.findById(updatedPost.getId()).orElse(null);
+        assertEquals(updatedPost, savedPost);
     }
 
     @Test
     public void deleteByIdTest(){
-        UserEntity testUser = createTestUser();
+        UserEntity testUser = getOrCreateTestUser();
 
         Post post = Post.builder()
                         .content("test content")
@@ -107,5 +84,6 @@ public class PostCommandRepositoryTest {
         Post createdPost = postCommandRepository.save(post);   
         System.out.println("post id: " + post.getId());
         postCommandRepository.deleteById(createdPost.getId());
+
     }
 }

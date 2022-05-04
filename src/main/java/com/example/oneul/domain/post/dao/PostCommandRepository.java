@@ -2,9 +2,10 @@ package com.example.oneul.domain.post.dao;
 
 import com.example.oneul.domain.post.domain.Post;
 
-public interface PostCommandRepository{
+import org.springframework.data.repository.CrudRepository;
+
+public interface PostCommandRepository extends CrudRepository<Post, Long> {
     Post save(Post post);
-    Post update(Post post);
     void deleteById(Long id);
     void delete(Post post);
 }
