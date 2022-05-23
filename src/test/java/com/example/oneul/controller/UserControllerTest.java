@@ -35,9 +35,10 @@ public class UserControllerTest {
     @Autowired
     private UserService userService;
     private MockHttpSession httpSession = new MockHttpSession();
+    private UserEntity testUser;
 
     @BeforeEach
-    public void setUp(){
+    public void eachSetUp(){
         mvc = MockMvcBuilders.standaloneSetup(new UserApi(userService))
             .addFilters(new CharacterEncodingFilter("UTF-8", true))
             .build();
@@ -53,10 +54,12 @@ public class UserControllerTest {
     }
     
     private UserEntity createTestUser(String username, String password){
-        return userService.signUp(UserEntity.builder()
+        if(testUser != null)
+            testUser =  userService.signUp(UserEntity.builder()
                                             .username(username)
                                             .password(password)
                                             .build());
+        return testUser;
     }
 
     @Test

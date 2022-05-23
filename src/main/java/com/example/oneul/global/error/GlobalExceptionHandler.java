@@ -14,12 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<String> handleException(Exception e){
-        log.info(e.getMessage());
-        return new ResponseEntity<>("invalid request", HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(UserAlreadyExistException.class)
     protected ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExistException e){
         log.info(e.getMessage());

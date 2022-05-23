@@ -12,7 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.example.oneul.domain.user.domain.UserEntity;
 
@@ -21,6 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(indexes = @Index(name = "i_post", columnList="createdAt"))
 public class Post {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

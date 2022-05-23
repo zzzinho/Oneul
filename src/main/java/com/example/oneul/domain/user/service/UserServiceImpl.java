@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import com.example.oneul.domain.user.dao.UserRepository;
 import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.exception.UserAlreadyExistException;
 import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
 
 import org.slf4j.Logger;
@@ -28,11 +29,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public UserEntity signUp(UserEntity userEntity){
+        if(userRepository.findByUsername(userEntity.getUsername()).isPresent()){
+            throw new UserAlreadyExistException(userEntity.getUsername() + " is already exists");
+        }
+        
         UserEntity user = UserEntity.builder().username(userEntity.getUsername())
                                               .password(
                                                   passwordEncoder.encode(userEntity.getPassword()))
                                               .build();
-        return userRepository.save(user);
+        return user;
     }
 
     @Override
