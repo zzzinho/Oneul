@@ -40,6 +40,7 @@ public class PostCommnadServiceImpl implements PostCommandService{
     @Override
     public Post updatePost(Long id, Post post, HttpSession httpSession){  
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
+        // TODO: 적절한 방법인지 확인하기
         Post postEntity = postCommandRepository.findByIdAndWriter(id, userEntity).orElseThrow(() -> new NotFoundException(id + " post not found"));
         postEntity.setConent(post.getContent());
         postEntity = postCommandRepository.save(postEntity);
