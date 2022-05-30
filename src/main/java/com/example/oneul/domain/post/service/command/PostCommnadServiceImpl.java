@@ -33,12 +33,12 @@ public class PostCommnadServiceImpl implements PostCommandService{
                 .writer(userEntity)
                 .build());
 
-        log.info("user: " + userEntity.toString() + " create " + post.toString());
+        log.info("user: " + userEntity.toString() + " create " + postEntity.toString());
         return postEntity;
     }
 
     @Override
-    public Post updatePost(Long id, Post post, HttpSession httpSession){  
+    public Post updatePost(Long id, Post post, HttpSession httpSession){ 
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
         // TODO: 적절한 방법인지 확인하기
         Post postEntity = postCommandRepository.findByIdAndWriter(id, userEntity).orElseThrow(() -> new NotFoundException(id + " post not found"));
@@ -51,7 +51,9 @@ public class PostCommnadServiceImpl implements PostCommandService{
 
     @Override
     public void deletePost(Long id, HttpSession httpSession){
-        postCommandRepository.deleteById(id);
+        // TODO: 이 때 세션이 만기되면 어떡함
+        UserEntity userEntity = (UserEntity)httpSession.getAttribute("user");
+        postCommandRepository.deleteByIdAndWriter(id, userEntity);
         log.info("post " + id + " is deleted");
     }
 }

@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
                                               .password(
                                                   passwordEncoder.encode(userEntity.getPassword()))
                                               .build();
+        userRepository.save(user);
+        log.info("user is created: " + user.toString());
         return user;
     }
 
@@ -45,14 +47,16 @@ public class UserServiceImpl implements UserService {
         UserEntity user =  userRepository.findByUsername(userEntity.getUsername())
                                          .orElseThrow(() -> new WrongUsernameAndPasswordException("wrong username"));
 
-        if(passwordEncoder.matches(userEntity.getPassword(), user.getPassword())){
-            log.info("login user: " + userEntity.toString());
-            httpSession.setAttribute("user",user);
-            log.info("session id: " + httpSession.getId());
-            log.info("session value: " + httpSession.getAttribute("user"));
-        } else {
+        if(!passwordEncoder.matches(userEntity.getPassword(), user.getPassword())){
             throw new WrongUsernameAndPasswordException("wrong passowrd");
         }
+
+        log.info("login user: " + userEntity.toString());
+        httpSession.setAttribute("user",user);
+
+        log.info("session id: " + httpSession.getId());
+        log.info("session value: " + httpSession.getAttribute("user"));
+        log.info("get session: " + httpSession.getAttribute("user").toString());
         return user;
     }
 

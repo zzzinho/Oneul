@@ -1,5 +1,6 @@
 package com.example.oneul.domain.post.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(indexes = @Index(name = "i_post", columnList="createdAt"))
-public class Post {
+public class Post implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @CreatedDate
@@ -32,7 +33,7 @@ public class Post {
     @Column(nullable = false)
     private String content;
     @Access(AccessType.PROPERTY)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private UserEntity writer;
     
     public Post() {}

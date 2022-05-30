@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface PostCommandRepository extends CrudRepository<Post, Long> {
     Post save(Post post);
     Optional<Post> findByIdAndWriter(Long id, UserEntity writer);
+    void deleteByIdAndWriter(Long id, UserEntity writer);
     void deleteById(Long id);
     void delete(Post post);
 }

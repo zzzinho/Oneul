@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.example.oneul.domain.post.domain.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,9 +26,9 @@ public class UserEntity implements Serializable {
     private Long id;
     @Column(nullable = false, unique = true)
     private String username;
-    @Column(nullable = false)
+    @JsonIgnore @Column(nullable = false)
     private String password;
-    @CreatedDate
+    @JsonIgnore @CreatedDate
     private LocalDateTime createdAt;
     @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
     private Set<Post> posts;

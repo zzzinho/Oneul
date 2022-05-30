@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(WrongUsernameAndPasswordException.class)
     protected ResponseEntity<String> handleWrongUsernameAndPasswordException(WrongUsernameAndPasswordException e){
-        log.info("wrong username and password");
-        return new ResponseEntity<>("wrong username and password", HttpStatus.NOT_FOUND);
+        log.info(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

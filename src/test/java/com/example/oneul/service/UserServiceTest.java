@@ -19,7 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserCommandServiceTest {
+public class UserServiceTest {
     @Autowired
     private UserService userCommandService;
     @Autowired
