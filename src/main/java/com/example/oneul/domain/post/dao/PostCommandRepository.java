@@ -1,5 +1,7 @@
 package com.example.oneul.domain.post.dao;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.oneul.domain.post.domain.Post;
@@ -13,4 +15,6 @@ public interface PostCommandRepository extends CrudRepository<Post, Long> {
     void deleteByIdAndWriter(Long id, UserEntity writer);
     void deleteById(Long id);
     void delete(Post post);
+
+    List<Post> findAllByExpiredAt(LocalDateTime expiredAt);  
 }

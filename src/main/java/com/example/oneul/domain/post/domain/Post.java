@@ -31,6 +31,9 @@ public class Post implements Serializable {
     @CreatedDate
     private LocalDateTime createdAt;
     @Column(nullable = false)
+    private LocalDateTime expiredAt;
+    private LocalDateTime deletedAt;
+    @Column(nullable = false)
     private String content;
     @Access(AccessType.PROPERTY)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -38,9 +41,11 @@ public class Post implements Serializable {
     
     public Post() {}
 
-    public Post(Long id, LocalDateTime createdAt, String content, UserEntity writer){
+    public Post(Long id, LocalDateTime createdAt, LocalDateTime expiredAt, String content, UserEntity writer){
         this.id = id;
         this.createdAt = createdAt;
+        this.expiredAt = expiredAt.plusHours(24);
+        this.deletedAt = null;
         this.content = content;
         this.writer = writer;
     }
@@ -59,6 +64,22 @@ public class Post implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt){
         this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getExpiredAt() {
+        return this.expiredAt;
+    }
+
+    public void setExpiredAt(LocalDateTime expiredAt){
+        this.expiredAt = expiredAt;
+    }
+
+    public LocalDateTime getDeletedAt(){
+        return this.deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt){
+        this.deletedAt = deletedAt;
     }
 
     public String getContent(){
@@ -99,6 +120,8 @@ public class Post implements Serializable {
         return "Post["
             + "id: " + this.id
             + ", createdAt: " + this.createdAt
+            + ", expiredAt: " + this.expiredAt
+            + ", deletedAt; " + this.deletedAt
             + ", content: " + this.content
             + "writer: " + this.writer.getId()
             + "]";
@@ -112,12 +135,14 @@ public class Post implements Serializable {
         private Long id;
         private String content;
         private LocalDateTime createdAt;
+        private LocalDateTime expiredAt;
         private UserEntity writer;
 
         public Post build(){
             return new Post(
                 id, 
                 createdAt, 
+                expiredAt,
                 content, 
                 writer);
         }
@@ -131,6 +156,11 @@ public class Post implements Serializable {
             return this;
         }
 
+        public Builder expiredAt(LocalDateTime expiredAt){
+            this.expiredAt = expiredAt;
+            return this;
+        }
+        
         public Builder content(String content){
             this.content = content;
             return this;
