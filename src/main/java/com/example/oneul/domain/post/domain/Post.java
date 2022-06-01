@@ -44,7 +44,7 @@ public class Post implements Serializable {
     public Post(Long id, LocalDateTime createdAt, LocalDateTime expiredAt, String content, UserEntity writer){
         this.id = id;
         this.createdAt = createdAt;
-        this.expiredAt = expiredAt.plusHours(24);
+        this.expiredAt = expiredAt;
         this.deletedAt = null;
         this.content = content;
         this.writer = writer;

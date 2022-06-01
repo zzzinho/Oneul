@@ -1,5 +1,7 @@
 package com.example.oneul.domain.post.service.command;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpSession;
 
 import com.example.oneul.domain.post.dao.PostCommandRepository;
@@ -26,10 +28,13 @@ public class PostCommnadServiceImpl implements PostCommandService{
     @Override
     public Post createPost(Post post, HttpSession httpSession){
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
-        
+        LocalDateTime createdAt = LocalDateTime.now();
+
         Post postEntity =  postCommandRepository.save(
             Post.builder()
                 .content(post.getContent())
+                .createdAt(createdAt)
+                .expiredAt(createdAt.plusHours(24))
                 .writer(userEntity)
                 .build());
 

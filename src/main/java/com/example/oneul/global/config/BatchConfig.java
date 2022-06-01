@@ -47,12 +47,12 @@ public class BatchConfig {
         return stepBuilderFactory.get("step")
                                 .tasklet((contribution, chunkContext) -> {
                                     LocalDateTime expiredAt = LocalDateTime.now();
-                                    List<Post> posts = postCommandRepository.findAllByExpiredAt(expiredAt);
-                                    // posts.stream().forEach(post -> {
-                                    //     post.setDeletedAt(expiredAt);
-                                    // });
-                                    // // TODO: Query DB 한테 알려줘야함
-                                    // postCommandRepository.saveAll(posts);
+                                    List<Post> posts = postCommandRepository.findAllByExpiredAtLessThanAndDeletedAtIsNull(expiredAt);
+                                    posts.stream().forEach(post -> {
+                                        post.setDeletedAt(expiredAt);
+                                    });
+                                    // TODO: Query DB 한테 알려줘야함
+                                    postCommandRepository.saveAll(posts);
                                     log.info(expiredAt + " posts(" + posts.size() + ") are deleted.");
                                     return RepeatStatus.FINISHED;
                                 }).build();

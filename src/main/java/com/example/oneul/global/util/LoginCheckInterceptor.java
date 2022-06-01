@@ -20,21 +20,21 @@ public class LoginCheckInterceptor implements HandlerInterceptor{
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("login check prehandler");
         HttpSession httpSession = request.getSession(false);
         if(httpSession == null){
-            log.info("no session");
+            log.info("sessionless user access");
             response.sendRedirect(loginPage);
             return false;
         }
 
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
-        
+
         if(userEntity == null){
             log.info("session expired");
             response.sendRedirect(loginPage);
             return false;
         }
+        log.info(userEntity.toString() + " is access");
         return true;
     }
 }

@@ -16,5 +16,5 @@ public interface PostCommandRepository extends CrudRepository<Post, Long> {
     void deleteById(Long id);
     void delete(Post post);
 
-    List<Post> findAllByExpiredAt(LocalDateTime expiredAt);  
+    List<Post> findAllByExpiredAtLessThanAndDeletedAtIsNull(LocalDateTime expiredAt);  
 }
