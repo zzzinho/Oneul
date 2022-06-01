@@ -8,11 +8,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 
-@SpringBootApplication
+
 @EnableJpaAuditing
 @EnableScheduling
 @EnableBatchProcessing
 @EnableRedisHttpSession
+@SpringBootApplication
 public class OneulApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OneulApplication.class, args);

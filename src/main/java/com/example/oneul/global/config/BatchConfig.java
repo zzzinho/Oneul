@@ -3,7 +3,7 @@ package com.example.oneul.global.config;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.example.oneul.domain.post.dao.PostCommandRepository;
+import com.example.oneul.domain.post.dao.command.PostCommandRepository;
 import com.example.oneul.domain.post.domain.Post;
 
 import org.slf4j.Logger;

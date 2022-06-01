@@ -21,8 +21,10 @@ import com.example.oneul.domain.user.domain.UserEntity;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Entity
+@Document
 @EntityListeners(AuditingEntityListener.class)
 @Table(indexes = @Index(name = "i_post", columnList="createdAt"))
 public class Post implements Serializable {

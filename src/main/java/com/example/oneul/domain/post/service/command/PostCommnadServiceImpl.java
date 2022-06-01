@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.domain.post.dao.PostCommandRepository;
+import com.example.oneul.domain.post.dao.command.PostCommandRepository;
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.global.error.exception.NotFoundException;
@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PostCommnadServiceImpl implements PostCommandService{
-    private final PostCommandRepository postCommandRepository;
-
     private final Logger log = LoggerFactory.getLogger(PostCommnadServiceImpl.class);
+
+    private final PostCommandRepository postCommandRepository;
 
     public PostCommnadServiceImpl(PostCommandRepository postCommandRepository){
         this.postCommandRepository = postCommandRepository;

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.post.dto.PostDTO;
 import com.example.oneul.domain.post.service.command.PostCommandService;
+import com.example.oneul.domain.post.service.query.PostQueryService;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/post")
 public class PostCommandApi {
     private final PostCommandService postCommandService;
-    
-    public PostCommandApi(PostCommandService postCommandService){
+    private final PostQueryService postQueryService;
+
+    public PostCommandApi(PostCommandService postCommandService, PostQueryService postQueryService){
         this.postCommandService = postCommandService;
+        this.postQueryService = postQueryService;
     }
 
     @RequestMapping(value="/", method=RequestMethod.POST)
     public Post createPost(HttpSession httpSession, @RequestBody PostDTO postDTO) {
         Post post = postCommandService.createPost(postDTO.toEntity(), httpSession);
+        postQueryService.insertPost(post);
         return post;
     }
     

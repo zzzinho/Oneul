@@ -1,13 +1,10 @@
 package com.example.oneul.domain.post.api;
 
-import java.util.List;
-
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.post.service.query.PostQueryService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,10 +34,4 @@ public class PostQueryApi {
         Page<Post> posts = postQueryService.findByWriter(writerId, PageRequest.of(page, 10));
         return posts;
     }
-
-    @GetMapping(value="/test")
-    public List<Post> test() {
-        return postQueryService.test();
-    }
-    
 }

@@ -1,8 +1,6 @@
 package com.example.oneul.domain.post.service.query;
 
-import java.util.List;
-
-import com.example.oneul.domain.post.dao.PostQueryRepository;
+import com.example.oneul.domain.post.dao.query.PostQueryRepository;
 import com.example.oneul.domain.post.domain.Post;
 
 import org.springframework.data.domain.Page;
@@ -20,17 +18,17 @@ public class PostQueryServiceImpl implements PostQueryService {
     }
 
     @Override
+    public Post insertPost(Post post){
+        return postQueryRepository.insert(post);
+    }
+    
+    @Override
     public Page<Post> findAll(PageRequest pageRequest){
         return postQueryRepository.findAll(pageRequest);
     }
 
     @Override
     public Page<Post> findByWriter(Long writerId, PageRequest pageRequest){
-        return postQueryRepository.findAllByWriter_Id(writerId, pageRequest);
-    }
-
-    @Override
-    public List<Post> test(){
-        return postQueryRepository.findAll();
+        return postQueryRepository.findAll(pageRequest);
     }
 }
