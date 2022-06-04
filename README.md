@@ -10,8 +10,8 @@ One Day Lifetime SNS
 - [Unit Test](https://mangkyu.tistory.com/143)
   
 ## Application Structure
-### Simple CQRS
-<p align="center"><img src="asset/cqrs_normal.jpeg" width=700></p>
+### CQRS and Event Sourcing
+<p align="center"><img src="asset/oneul_structure.jpeg" width=700></p>
 <img src="asset/need_graphic_designer.jpeg" width=25>
 
 ### Directory Structure
@@ -72,7 +72,3 @@ git clone https://github.com/zzzinho/Oneul.git
 gradle bootJar
 docker compose up --build -d
 ```
-
-## Next Level
-### CQRS with separated persistance mechanisms
-<p align="center"><img src="asset/cqrs_premium.png" width=300></p>
