@@ -14,6 +14,7 @@ import com.example.oneul.domain.post.service.command.PostCommandService;
 
 
 
+
 @RestController
 @RequestMapping(value = "/post")
 public class PostCommandApi {
@@ -33,6 +34,12 @@ public class PostCommandApi {
     public Post updatePost(HttpSession httpSession, @RequestBody PostDTO postDTO, @PathVariable Long postId) {
         Post post = postCommandService.updatePost(postId, postDTO.toEntity(), httpSession);
         return post;
+    }
+    
+    @RequestMapping(value="/{postId}/", method=RequestMethod.DELETE)
+    public String deletePost(HttpSession httpSession, @PathVariable Long postId) {
+        postCommandService.deletePost(postId, httpSession);
+        return postId + " is deleted";
     }
     
 }

@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.domain.UserEntity;
-
-import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostCommandRepository extends JpaRepository<Post, Long> {
     Post save(Post post);

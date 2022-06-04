@@ -61,6 +61,9 @@ public class PostCommnadServiceImpl implements PostCommandService{
         Post postEntity = postCommandRepository.findByIdAndWriter(id, userEntity).orElseThrow(() -> new NotFoundException(id + " post not found"));
         postEntity.setConent(post.getContent());
         postEntity = postCommandRepository.save(postEntity);
+        PostDocument postDocument = postQueryRepository.findById(postEntity.getId()).orElseThrow(() -> new NotFoundException("query repository doesn't have " + id));
+        postDocument.setContent(postEntity.getContent());
+        postQueryRepository.save(postDocument);
         log.info(postEntity.toString() + " is updated");
 
         return postEntity;
@@ -71,6 +74,7 @@ public class PostCommnadServiceImpl implements PostCommandService{
         // TODO: 이 때 세션이 만기되면 어떡함
         UserEntity userEntity = (UserEntity)httpSession.getAttribute("user");
         postCommandRepository.deleteByIdAndWriter(id, userEntity);
+        postQueryRepository.deleteById(id);
         log.info("post " + id + " is deleted");
     }
 }
