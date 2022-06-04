@@ -1,12 +1,12 @@
 package com.example.oneul.domain.post.service.query;
 
-import com.example.oneul.domain.post.domain.Post;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.example.oneul.domain.post.domain.PostDocument;
+
 public interface PostQueryService {
-    Page<Post> findAll(PageRequest pageRequest);
-    Page<Post> findByWriter(Long writerId, PageRequest pageRequest);
-    Post insertPost(Post post);
+    Page<PostDocument> findAll(PageRequest pageRequest);
+    Page<PostDocument> findByWriter(Long writerId, PageRequest pageRequest);
+    PostDocument insertPost(PostDocument post);
 }

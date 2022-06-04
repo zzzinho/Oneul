@@ -4,15 +4,17 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.domain.post.dao.command.PostCommandRepository;
-import com.example.oneul.domain.post.domain.Post;
-import com.example.oneul.domain.user.domain.UserEntity;
-import com.example.oneul.global.error.exception.NotFoundException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.oneul.domain.post.dao.command.PostCommandRepository;
+import com.example.oneul.domain.post.dao.query.PostQueryRepository;
+import com.example.oneul.domain.post.domain.Post;
+import com.example.oneul.domain.post.domain.PostDocument;
+import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.global.error.exception.NotFoundException;
 
 @Service
 @Transactional
@@ -20,9 +22,11 @@ public class PostCommnadServiceImpl implements PostCommandService{
     private final Logger log = LoggerFactory.getLogger(PostCommnadServiceImpl.class);
 
     private final PostCommandRepository postCommandRepository;
-
-    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository){
+    private final PostQueryRepository postQueryRepository;
+    
+    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, PostQueryRepository postQueryRepository){
         this.postCommandRepository = postCommandRepository;
+        this.postQueryRepository = postQueryRepository;
     }
     
     @Override
@@ -37,6 +41,14 @@ public class PostCommnadServiceImpl implements PostCommandService{
                 .expiredAt(createdAt.plusHours(24))
                 .writer(userEntity)
                 .build());
+
+        // TODO: 메시지 큐잉으로 전환
+        postQueryRepository.save(
+            new PostDocument(
+                postEntity.getId(), 
+                postEntity.getCreatedAt(), 
+                postEntity.getContent(), 
+                postEntity.getWriter().getUsername()));
 
         log.info("user: " + userEntity.toString() + " create " + postEntity.toString());
         return postEntity;

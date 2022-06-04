@@ -13,11 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.example.oneul.domain.post.domain.Post;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.example.oneul.domain.post.domain.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -30,6 +30,7 @@ public class UserEntity implements Serializable {
     private String password;
     @JsonIgnore @CreatedDate
     private LocalDateTime createdAt;
+    @JsonIgnore
     @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
     private Set<Post> posts;
     

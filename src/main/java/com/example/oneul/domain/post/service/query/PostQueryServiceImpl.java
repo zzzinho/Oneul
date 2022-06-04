@@ -1,12 +1,12 @@
 package com.example.oneul.domain.post.service.query;
 
-import com.example.oneul.domain.post.dao.query.PostQueryRepository;
-import com.example.oneul.domain.post.domain.Post;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.oneul.domain.post.dao.query.PostQueryRepository;
+import com.example.oneul.domain.post.domain.PostDocument;
 
 @Service
 @Transactional
@@ -18,17 +18,17 @@ public class PostQueryServiceImpl implements PostQueryService {
     }
 
     @Override
-    public Post insertPost(Post post){
+    public PostDocument insertPost(PostDocument post){
         return postQueryRepository.insert(post);
     }
     
     @Override
-    public Page<Post> findAll(PageRequest pageRequest){
+    public Page<PostDocument> findAll(PageRequest pageRequest){
         return postQueryRepository.findAll(pageRequest);
     }
 
     @Override
-    public Page<Post> findByWriter(Long writerId, PageRequest pageRequest){
+    public Page<PostDocument> findByWriter(Long writerId, PageRequest pageRequest){
         return postQueryRepository.findAll(pageRequest);
     }
 }
