@@ -12,7 +12,6 @@ One Day Lifetime SNS
 ## Application Structure
 ### CQRS and Event Sourcing
 <p align="center"><img src="asset/oneul_structure.jpeg" width=700></p>
-<img src="asset/need_graphic_designer.jpeg" width=25>
 
 ### Directory Structure
 [Domain Directory Structure](https://github.com/cheese10yun/spring-guide/blob/master/docs/directory-guide.md)
