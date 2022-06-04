@@ -7,6 +7,7 @@ services:
     depends_on:
       - mysql
       - redis
+      - mongodb
       
   mysql:
     image: mysql
@@ -22,3 +23,7 @@ services:
     ports:
       - 6379:6379
 
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
