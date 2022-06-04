@@ -47,15 +47,22 @@ One Day Lifetime SNS
     │   │                   │   └── response
     │   │                   ├── config
     │   │                   │   ├── RedisConfig.java
+    │   │                   │   ├── BatchConfig.java
+    │   │                   │   ├── MongoConfig.java
     │   │                   │   └── security
+    │   │                   │       ├── InterceptorConfig.java
     │   │                   │       └── WebSecurityConfig.java 
     │   │                   ├── error
-    │   │                   │   ├── ErrorResponse.java
     │   │                   │   ├── GlobalExceptionHandler.java
     │   │                   │   └── exception
+    │   │                   │       ├── NotFoundException.java
     │   │                   └── util
     │   │                       ├── LoginCheckInterceptor.java
+    │   │                       ├── BatchScheduler.java
     │   └── resources
+    │       ├── application-local.yml
+    │       ├── application-prod.yml
+    │       ├── application-test.yml
     │       └── application.yml
 
 ```
