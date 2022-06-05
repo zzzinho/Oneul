@@ -30,10 +30,11 @@ public class BatchConfig {
     private PostCommandRepository postCommandRepository;
     private PostQueryRepository postQueryRepository;
 
-    public BatchConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory, PostCommandRepository postCommandRepository){
+    public BatchConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory, PostCommandRepository postCommandRepository, PostQueryRepository postQueryRepository){
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.postCommandRepository = postCommandRepository;
+        this.postQueryRepository = postQueryRepository;
     }
 
     @Bean 
