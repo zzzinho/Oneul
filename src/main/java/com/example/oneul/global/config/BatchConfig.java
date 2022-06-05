@@ -2,9 +2,7 @@ package com.example.oneul.global.config;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.example.oneul.domain.post.dao.command.PostCommandRepository;
-import com.example.oneul.domain.post.domain.Post;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +15,10 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.oneul.domain.post.dao.command.PostCommandRepository;
+import com.example.oneul.domain.post.dao.query.PostQueryRepository;
+import com.example.oneul.domain.post.domain.Post;
+
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
@@ -26,6 +28,7 @@ public class BatchConfig {
     private final Logger log = LoggerFactory.getLogger(BatchConfig.class);
 
     private PostCommandRepository postCommandRepository;
+    private PostQueryRepository postQueryRepository;
 
     public BatchConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory, PostCommandRepository postCommandRepository){
         this.jobBuilderFactory = jobBuilderFactory;
@@ -51,8 +54,12 @@ public class BatchConfig {
                                     posts.stream().forEach(post -> {
                                         post.setDeletedAt(expiredAt);
                                     });
-                                    // TODO: Query DB 한테 알려줘야함
+                                    
                                     postCommandRepository.saveAll(posts);
+                                    // TODO: Message Queue로 전환
+                                    postQueryRepository.deleteAllById(posts.stream()
+                                                                            .map(post -> post.getId())
+                                                                            .collect(Collectors.toList()));
                                     log.info(expiredAt + " posts(" + posts.size() + ") are deleted.");
                                     return RepeatStatus.FINISHED;
                                 }).build();

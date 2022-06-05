@@ -19,7 +19,7 @@ public class MongoConfig {
     @Value("${spring.data.mongodb.host}")
     private String host;
     @Value("${spring.data.mongodb.port}")
-    private Integer port;
+    private int port;
     @Value("${spring.data.mongodb.database}")
     private String database;
 
