@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.oneul.domain.post.dao.command.PostCommandRepository;
 import com.example.oneul.domain.post.dao.query.PostQueryRepository;
 import com.example.oneul.domain.post.domain.Post;
-import com.example.oneul.domain.post.domain.PostDocument;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.global.error.exception.NotFoundException;
+import com.example.oneul.infra.dto.PostMessage;
 import com.example.oneul.infra.kafka.KafkaPublisher;
 
 @Service
@@ -45,12 +45,16 @@ public class PostCommnadServiceImpl implements PostCommandService{
                 .writer(userEntity)
                 .build());
 
-        PostDocument postDocument = new PostDocument(
-            postEntity.getId(), 
-            postEntity.getCreatedAt(), 
-            postEntity.getContent(), 
-            postEntity.getWriter().getUsername());
-        kafkaPublisher.sendMessage("post", postDocument);
+        kafkaPublisher.sendMessage(
+            "post", 
+            new PostMessage(
+                "INSERT",
+                postEntity.getId(), 
+                postEntity.getCreatedAt(), 
+                postEntity.getContent(), 
+                postEntity.getWriter().getUsername()
+            )
+        );
     
         log.info("user: " + userEntity.toString() + " create " + postEntity.toString());
         return postEntity;
@@ -59,13 +63,22 @@ public class PostCommnadServiceImpl implements PostCommandService{
     @Override
     public Post updatePost(Long id, Post post, HttpSession httpSession){ 
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
-        // TODO: 적절한 방법인지 확인하기
         Post postEntity = postCommandRepository.findByIdAndWriter(id, userEntity).orElseThrow(() -> new NotFoundException(id + " post not found"));
+        
         postEntity.setConent(post.getContent());
         postEntity = postCommandRepository.save(postEntity);
-        PostDocument postDocument = postQueryRepository.findById(postEntity.getId()).orElseThrow(() -> new NotFoundException("query repository doesn't have " + id));
-        postDocument.setContent(postEntity.getContent());
-        postQueryRepository.save(postDocument);
+
+        kafkaPublisher.sendMessage(
+            "post", 
+            new PostMessage(
+                "UPDATE",
+                postEntity.getId(), 
+                postEntity.getCreatedAt(), 
+                postEntity.getContent(), 
+                postEntity.getWriter().getUsername()
+            )
+        );
+
         log.info(postEntity.toString() + " is updated");
 
         return postEntity;
@@ -75,8 +88,16 @@ public class PostCommnadServiceImpl implements PostCommandService{
     public void deletePost(Long id, HttpSession httpSession){
         // TODO: 이 때 세션이 만기되면 어떡함
         UserEntity userEntity = (UserEntity)httpSession.getAttribute("user");
+        
         postCommandRepository.deleteByIdAndWriter(id, userEntity);
-        postQueryRepository.deleteById(id);
+
+        kafkaPublisher.sendMessage(
+            "post", 
+            PostMessage.builder()
+                .type("DELETE")
+                .id(id)
+                .build());
+    
         log.info("post " + id + " is deleted");
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import com.example.oneul.domain.post.domain.PostDocument;
+import com.example.oneul.infra.dto.PostMessage;
 
 @Configuration
 public class KafkaConsumerConfig {
@@ -24,19 +24,19 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    public ConsumerFactory<String, PostDocument> consumerFactory() {
+    public ConsumerFactory<String, PostMessage> consumerFactory() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configs.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
 
         return new DefaultKafkaConsumerFactory<>(configs,
                                                  new StringDeserializer(),
-                                                 new JsonDeserializer<>(PostDocument.class));
+                                                 new JsonDeserializer<>(PostMessage.class));
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, PostDocument> postListener() {
-        ConcurrentKafkaListenerContainerFactory<String, PostDocument> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, PostMessage> postListener() {
+        ConcurrentKafkaListenerContainerFactory<String, PostMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
