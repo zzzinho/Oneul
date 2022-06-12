@@ -34,6 +34,8 @@ dependencies {
 	
 	implementation 'org.springframework.session:spring-session-data-redis'
 	
+	implementation 'org.springframework.kafka:spring-kafka'
+
 	runtimeOnly 'mysql:mysql-connector-java'
 
 	compileOnly 'org.projectlombok:lombok'

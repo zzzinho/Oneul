@@ -2,17 +2,17 @@ package com.example.oneul.domain.user.api;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.domain.user.domain.UserEntity;
-import com.example.oneul.domain.user.dto.LoginDTO;
-import com.example.oneul.domain.user.dto.SignUpDTO;
-import com.example.oneul.domain.user.service.UserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.dto.LoginDTO;
+import com.example.oneul.domain.user.dto.SignUpDTO;
+import com.example.oneul.domain.user.service.UserService;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -27,7 +27,7 @@ public class UserApi {
 
     @RequestMapping(value="/signup/", method=RequestMethod.POST)
     public UserEntity signUp(@RequestBody SignUpDTO signUpDTO) {
-        // TODO: password1, password2 같은지 검사
+        // TODO: password1, password2 같은지 validator로 검사
         UserEntity user = userService.signUp(signUpDTO.toEntity());
         log.info("signUp: " + user.toString());
         return user;

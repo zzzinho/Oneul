@@ -22,7 +22,14 @@ spring:
       host: localhost
       port: 27017
       database: oneul
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: post
+      auto-offset-reset: earliest
+
 server:
+  port: 5555
   servlet:
     session:
       timeout: 60

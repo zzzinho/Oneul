@@ -15,6 +15,7 @@ import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.post.domain.PostDocument;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.global.error.exception.NotFoundException;
+import com.example.oneul.infra.kafka.KafkaPublisher;
 
 @Service
 @Transactional
@@ -23,10 +24,12 @@ public class PostCommnadServiceImpl implements PostCommandService{
 
     private final PostCommandRepository postCommandRepository;
     private final PostQueryRepository postQueryRepository;
+    private final KafkaPublisher kafkaPublisher;
     
-    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, PostQueryRepository postQueryRepository){
+    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, PostQueryRepository postQueryRepository, KafkaPublisher kafkaPublisher){
         this.postCommandRepository = postCommandRepository;
         this.postQueryRepository = postQueryRepository;
+        this.kafkaPublisher = kafkaPublisher;
     }
     
     @Override
@@ -42,14 +45,13 @@ public class PostCommnadServiceImpl implements PostCommandService{
                 .writer(userEntity)
                 .build());
 
-        // TODO: 메시지 큐잉으로 전환
-        postQueryRepository.save(
-            new PostDocument(
-                postEntity.getId(), 
-                postEntity.getCreatedAt(), 
-                postEntity.getContent(), 
-                postEntity.getWriter().getUsername()));
-
+        PostDocument postDocument = new PostDocument(
+            postEntity.getId(), 
+            postEntity.getCreatedAt(), 
+            postEntity.getContent(), 
+            postEntity.getWriter().getUsername());
+        kafkaPublisher.sendMessage("post", postDocument);
+    
         log.info("user: " + userEntity.toString() + " create " + postEntity.toString());
         return postEntity;
     }
