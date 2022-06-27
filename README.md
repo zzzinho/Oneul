@@ -41,23 +41,32 @@ One Day Lifetime SNS
     │   │               │   │   ├── dto
     │   │               │   │   └── exception
     │   │               ├── global
-    │   │                   ├── common
-    │   │                   │   ├── request
-    │   │                   │   └── response
+    │   │               │   ├── common
+    │   │               │   │   ├── request
+    │   │               │   │   └── response
+    │   │               │   ├── config
+    │   │               │   │   ├── RedisConfig.java
+    │   │               │   │   ├── BatchConfig.java
+    │   │               │   │   ├── MongoConfig.java
+    │   │               │   │   └── security
+    │   │               │   │       ├── InterceptorConfig.java
+    │   │               │   │       └── WebSecurityConfig.java 
+    │   │               │   ├── error
+    │   │               │   │   ├── GlobalExceptionHandler.java
+    │   │               │   │   └── exception
+    │   │               │   │       ├── NotFoundException.java
+    │   │               │   └── util
+    │   │               │       ├── LoginCheckInterceptor.java
+    │   │               │       └── BatchScheduler.java
+    │   │               └── infra
     │   │                   ├── config
-    │   │                   │   ├── RedisConfig.java
-    │   │                   │   ├── BatchConfig.java
-    │   │                   │   ├── MongoConfig.java
-    │   │                   │   └── security
-    │   │                   │       ├── InterceptorConfig.java
-    │   │                   │       └── WebSecurityConfig.java 
-    │   │                   ├── error
-    │   │                   │   ├── GlobalExceptionHandler.java
-    │   │                   │   └── exception
-    │   │                   │       ├── NotFoundException.java
-    │   │                   └── util
-    │   │                       ├── LoginCheckInterceptor.java
-    │   │                       ├── BatchScheduler.java
+    │   │                   │   ├── KafkaConsumerConfig.java
+    │   │                   │   └── KafkaProducerConfig.java
+    │   │                   ├── dto
+    │   │                   │   └── PostMessage.java
+    │   │                   └── kafka
+    │   │                       ├── KafkaPublisher.java
+    │   │                       └── KafkaSubscriber.java
     │   └── resources
     │       ├── application-local.yml
     │       ├── application-prod.yml
@@ -69,5 +78,5 @@ One Day Lifetime SNS
 ```bash
 git clone https://github.com/zzzinho/Oneul.git
 gradle bootJar
-docker compose up --build -d
+docker compose up --build
 ```

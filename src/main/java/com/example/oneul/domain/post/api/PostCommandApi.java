@@ -12,9 +12,6 @@ import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.post.dto.PostDTO;
 import com.example.oneul.domain.post.service.command.PostCommandService;
 
-
-
-
 @RestController
 @RequestMapping(value = "/post")
 public class PostCommandApi {

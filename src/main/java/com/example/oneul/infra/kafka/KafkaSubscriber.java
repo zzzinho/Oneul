@@ -19,7 +19,7 @@ public class KafkaSubscriber {
         this.postQueryRepository = postQueryRepository;
     }
 
-    @KafkaListener(topics = "post", groupId = "post", containerFactory = "postListener")
+    @KafkaListener(topics = "post", containerFactory = "postListener")
     public void listen(PostMessage postMessage){
         log.info("message listen: " + postMessage.toString());
         
