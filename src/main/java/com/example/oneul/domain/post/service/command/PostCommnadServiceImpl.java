@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.oneul.domain.post.dao.command.PostCommandRepository;
-import com.example.oneul.domain.post.dao.query.PostQueryRepository;
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.global.error.exception.NotFoundException;
@@ -23,12 +22,10 @@ public class PostCommnadServiceImpl implements PostCommandService{
     private final Logger log = LoggerFactory.getLogger(PostCommnadServiceImpl.class);
 
     private final PostCommandRepository postCommandRepository;
-    private final PostQueryRepository postQueryRepository;
     private final KafkaPublisher kafkaPublisher;
     
-    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, PostQueryRepository postQueryRepository, KafkaPublisher kafkaPublisher){
+    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, KafkaPublisher kafkaPublisher){
         this.postCommandRepository = postCommandRepository;
-        this.postQueryRepository = postQueryRepository;
         this.kafkaPublisher = kafkaPublisher;
     }
     
