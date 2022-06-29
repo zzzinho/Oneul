@@ -2,17 +2,16 @@ package com.example.oneul.domain.user.service;
 
 import javax.servlet.http.HttpSession;
 
-import com.example.oneul.domain.user.dao.UserRepository;
-import com.example.oneul.domain.user.domain.UserEntity;
-import com.example.oneul.domain.user.exception.UserAlreadyExistException;
-import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.oneul.domain.user.dao.UserRepository;
+import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.domain.user.exception.UserAlreadyExistException;
+import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
 
 @Service
 @Transactional
@@ -27,7 +26,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     public UserEntity signUp(UserEntity userEntity){
         if(userRepository.findByUsername(userEntity.getUsername()).isPresent()){
             throw new UserAlreadyExistException(userEntity.getUsername() + " is already exists");

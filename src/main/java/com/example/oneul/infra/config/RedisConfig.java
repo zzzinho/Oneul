@@ -1,4 +1,4 @@
-package com.example.oneul.global.config;
+package com.example.oneul.infra.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

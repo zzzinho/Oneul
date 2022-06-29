@@ -1,4 +1,4 @@
-package com.example.oneul.global.config;
+package com.example.oneul.infra.config;
 
 import java.time.LocalDateTime;
 import java.util.List;

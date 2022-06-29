@@ -1,9 +1,7 @@
-package com.example.oneul.global.util;
+package com.example.oneul.infra.util;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.oneul.global.config.BatchConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,8 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.example.oneul.infra.config.BatchConfig;
 
 @Component
 public class BatchScheduler {
