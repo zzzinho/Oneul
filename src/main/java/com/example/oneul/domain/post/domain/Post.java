@@ -24,7 +24,7 @@ import com.example.oneul.domain.user.domain.UserEntity;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(indexes = @Index(name = "i_post", columnList="createdAt"))
+@Table(name = "post", indexes = @Index(name = "i_post", columnList="createdAt"))
 public class Post implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

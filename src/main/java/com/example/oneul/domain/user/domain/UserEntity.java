@@ -3,36 +3,28 @@ package com.example.oneul.domain.user.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.example.oneul.domain.post.domain.Post;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "user")
 public class UserEntity implements Serializable {
     @Id @GeneratedValue
+    @Column(name = "id", updatable = false)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
-    @JsonIgnore @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
-    @JsonIgnore @CreatedDate
+    @CreationTimestamp
+    @Column(name = "createAt", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-    @JsonIgnore
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
-    private Set<Post> posts;
     
     public Long getId(){
         return this.id;

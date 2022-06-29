@@ -6,7 +6,7 @@ spring:
     properties:
       hibernate:
         show-sql: true
-        ddl-auto: update
+        ddl-auto: create
         hbm2ddl:
           auto: update
         format_sql: true

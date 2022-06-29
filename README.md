@@ -45,9 +45,6 @@ One Day Lifetime SNS
     │   │               │   │   ├── request
     │   │               │   │   └── response
     │   │               │   ├── config
-    │   │               │   │   ├── RedisConfig.java
-    │   │               │   │   ├── BatchConfig.java
-    │   │               │   │   ├── MongoConfig.java
     │   │               │   │   └── security
     │   │               │   │       ├── InterceptorConfig.java
     │   │               │   │       └── WebSecurityConfig.java 
@@ -60,6 +57,9 @@ One Day Lifetime SNS
     │   │               │       └── BatchScheduler.java
     │   │               └── infra
     │   │                   ├── config
+    │   │                   │   ├── RedisConfig.java
+    │   │                   │   ├── MongoConfig.java
+    │   │                   │   ├── BatchConfig.java
     │   │                   │   ├── KafkaConsumerConfig.java
     │   │                   │   └── KafkaProducerConfig.java
     │   │                   ├── dto
