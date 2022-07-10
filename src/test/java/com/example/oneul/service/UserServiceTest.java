@@ -1,15 +1,16 @@
 package com.example.oneul.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpSession;
@@ -20,33 +21,24 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.example.oneul.domain.user.dao.UserRepository;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.domain.user.dto.LoginDTO;
+import com.example.oneul.domain.user.service.UserService;
 import com.example.oneul.domain.user.service.UserServiceImpl;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-    // private UserService userService;
-    @InjectMocks
-    private UserServiceImpl userService;
+    private UserService userService;
     @Mock
     private UserRepository userRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
 
     protected MockHttpSession httpSession;
-
-    // static {
-    //     GenericContainer redis = new GenericContainer("redis:3-alpine")
-    //             .withExposedPorts(6379);
-    //     redis.start();
-
-    //     System.setProperty("spring.redis.host", redis.getContainerIpAddress());
-    //     System.setProperty("spring.redis.port", redis.getFirstMappedPort() + "");
-    // }
     
-    @Before
-    public void setUp() {
+    @BeforeEach
+    public void setUp() throws Exception {
         userService = new UserServiceImpl(userRepository, passwordEncoder);
+        httpSession = new MockHttpSession();
     }
 
     @Test
@@ -71,7 +63,35 @@ public class UserServiceTest {
         assertEquals(user.getUsername(),userFoundById.getUsername());
     }
 
+    @Test
+    public void loginTest() throws Exception {
+        // given
+            LoginDTO loginDTO = createLoginDTO();
+            UserEntity loginUser = loginDTO.toEntity();
+
+        // mocking 
+            Long mockUserId = 1L;
+            UserEntity userEntity = mockUser(mockUserId);
+            given(userRepository.findByUsername(loginUser.getUsername())).willReturn(Optional.ofNullable(userEntity));
+            given(passwordEncoder.matches(any(), eq(userEntity.getPassword()))).willReturn(true);
+
+        // when
+            UserEntity user = userService.login(userEntity, httpSession);
+
+        // then
+        assertNotEquals(httpSession.getAttribute("user"), null);
+        assertEquals((UserEntity)httpSession.getAttribute("user"), user);
+    }   
+
+
     private LoginDTO createLoginDTO() {
         return new LoginDTO("zzzinho", "password");
+    }
+
+    private UserEntity mockUser(Long id){
+        return UserEntity.builder().id(id)
+                                    .username("zzzinho")
+                                    .password(passwordEncoder.encode("password"))
+                                    .build();
     }
 }
