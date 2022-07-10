@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
 
 @Entity
 @Table(name = "user")
@@ -26,6 +29,13 @@ public class UserEntity implements Serializable {
     @Column(name = "createAt", nullable = false, updatable = false)
     private LocalDateTime createdAt;
     
+    public boolean matchPassword(String password, PasswordEncoder passwordEncoder){
+        if(!passwordEncoder.matches(password, getPassword())){
+            throw new WrongUsernameAndPasswordException("wrong password");
+        }
+        return true;
+    }
+
     public Long getId(){
         return this.id;
     }

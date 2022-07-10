@@ -31,11 +31,12 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistException(userEntity.getUsername() + " is already exists");
         }
         
-        UserEntity user = UserEntity.builder().username(userEntity.getUsername())
-                                              .password(
-                                                  passwordEncoder.encode(userEntity.getPassword()))
-                                              .build();
-        userRepository.save(user);
+        UserEntity user =  userRepository.save(
+            UserEntity.builder().username(userEntity.getUsername())
+                                .password(
+                                    passwordEncoder.encode(userEntity.getPassword()))
+                        .build());
+        log.info(user.getPassword());
         log.info("user is created: " + user.toString());
         return user;
     }
@@ -45,9 +46,7 @@ public class UserServiceImpl implements UserService {
         UserEntity user =  userRepository.findByUsername(userEntity.getUsername())
                                          .orElseThrow(() -> new WrongUsernameAndPasswordException("wrong username"));
 
-        if(!passwordEncoder.matches(userEntity.getPassword(), user.getPassword())){
-            throw new WrongUsernameAndPasswordException("wrong passowrd");
-        }
+        user.matchPassword(userEntity.getPassword(), passwordEncoder);
 
         log.info("login user: " + userEntity.toString());
         httpSession.setAttribute("user",user);
