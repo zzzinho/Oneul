@@ -83,6 +83,19 @@ public class UserServiceTest {
         assertEquals((UserEntity)httpSession.getAttribute("user"), user);
     }   
 
+    @Test
+    public void logoutTest() throws Exception {
+        //given
+        Long mockUserId = 1L;
+        UserEntity userEntity = mockUser(mockUserId);
+        httpSession.setAttribute("user", userEntity);
+
+        // when
+        userService.logout(httpSession);
+
+        // then
+        assertEquals(httpSession.getAttribute("user"), null);
+    }
 
     private LoginDTO createLoginDTO() {
         return new LoginDTO("zzzinho", "password");
