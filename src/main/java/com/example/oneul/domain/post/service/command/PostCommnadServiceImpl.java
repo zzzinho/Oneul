@@ -33,6 +33,9 @@ public class PostCommnadServiceImpl implements PostCommandService{
     @Override
     public Post createPost(Post post, HttpSession httpSession){
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
+        if(userEntity == null){
+            throw new ExpiredSessionException("만료된 세션");
+        }
         LocalDateTime createdAt = LocalDateTime.now();
 
         Post postEntity =  postCommandRepository.save(
@@ -61,6 +64,9 @@ public class PostCommnadServiceImpl implements PostCommandService{
     @Override
     public Post updatePost(Long id, Post post, HttpSession httpSession){ 
         UserEntity userEntity = (UserEntity) httpSession.getAttribute("user");
+        if(userEntity == null){
+            throw new ExpiredSessionException("만료된 세션");
+        }
         Post postEntity = postCommandRepository.findByIdAndWriter(id, userEntity).orElseThrow(() -> new NotFoundException(id + " post not found"));
         
         postEntity.setConent(post.getContent());
@@ -84,7 +90,6 @@ public class PostCommnadServiceImpl implements PostCommandService{
 
     @Override
     public void deletePost(Long id, HttpSession httpSession){
-        // TODO: 이 때 세션이 만기되면 어떡함
         UserEntity userEntity = (UserEntity)httpSession.getAttribute("user");
         if(userEntity == null){
             throw new ExpiredSessionException("만료된 세션");
