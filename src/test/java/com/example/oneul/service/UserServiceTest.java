@@ -28,11 +28,8 @@ import com.example.oneul.domain.user.service.UserServiceImpl;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     private UserService userService;
-    @Mock
-    private UserRepository userRepository;
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
+    @Mock private UserRepository userRepository;
+    @Mock private PasswordEncoder passwordEncoder;
     protected MockHttpSession httpSession;
     
     @BeforeEach

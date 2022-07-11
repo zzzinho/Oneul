@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.oneul.domain.post.dao.command.PostCommandRepository;
 import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.domain.UserEntity;
+import com.example.oneul.global.error.exception.ExpiredSessionException;
 import com.example.oneul.global.error.exception.NotFoundException;
 import com.example.oneul.infra.dto.PostMessage;
 import com.example.oneul.infra.kafka.KafkaPublisher;
@@ -85,7 +86,10 @@ public class PostCommnadServiceImpl implements PostCommandService{
     public void deletePost(Long id, HttpSession httpSession){
         // TODO: 이 때 세션이 만기되면 어떡함
         UserEntity userEntity = (UserEntity)httpSession.getAttribute("user");
-        
+        if(userEntity == null){
+            throw new ExpiredSessionException("만료된 세션");
+        }
+
         postCommandRepository.deleteByIdAndWriter(id, userEntity);
 
         kafkaPublisher.sendMessage(
