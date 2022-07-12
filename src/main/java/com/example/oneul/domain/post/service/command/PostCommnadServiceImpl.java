@@ -36,8 +36,9 @@ public class PostCommnadServiceImpl implements PostCommandService{
         if(userEntity == null){
             throw new ExpiredSessionException("만료된 세션");
         }
+        
         LocalDateTime createdAt = LocalDateTime.now();
-
+        
         Post postEntity =  postCommandRepository.save(
             Post.builder()
                 .content(post.getContent())
@@ -56,7 +57,7 @@ public class PostCommnadServiceImpl implements PostCommandService{
                 postEntity.getWriter().getUsername()
             )
         );
-    
+        
         log.info("user: " + userEntity.toString() + " create " + postEntity.toString());
         return postEntity;
     }

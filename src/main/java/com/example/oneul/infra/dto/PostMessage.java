@@ -1,6 +1,7 @@
 package com.example.oneul.infra.dto;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class PostMessage {
     private String type;
@@ -59,6 +60,23 @@ public class PostMessage {
         this.wirter = writer;
     }
 
+    @Override
+    public boolean equals(Object object){
+        if(this == object) {
+            return true;
+        }
+        if(object == null || getClass() != object.getClass()){
+            return false;
+        }
+        PostMessage that = (PostMessage)object;
+        return this.id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
+    }
+    
     @Override
     public String toString(){
         return "PostMessage["

@@ -38,7 +38,7 @@ public class Post implements Serializable {
     @Access(AccessType.PROPERTY)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private UserEntity writer;
-    
+
     public Post() {}
 
     public Post(Long id, LocalDateTime createdAt, LocalDateTime expiredAt, String content, UserEntity writer){
