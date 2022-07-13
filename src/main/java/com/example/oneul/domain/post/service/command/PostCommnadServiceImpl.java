@@ -14,8 +14,9 @@ import com.example.oneul.domain.post.domain.Post;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.global.error.exception.ExpiredSessionException;
 import com.example.oneul.global.error.exception.NotFoundException;
-import com.example.oneul.infra.dto.PostMessage;
 import com.example.oneul.infra.kafka.KafkaPublisher;
+import com.example.oneul.infra.kafka.Type;
+import com.example.oneul.infra.kafka.service.MessageQueueFactory;
 
 @Service
 @Transactional
@@ -23,11 +24,13 @@ public class PostCommnadServiceImpl implements PostCommandService{
     private final Logger log = LoggerFactory.getLogger(PostCommnadServiceImpl.class);
 
     private final PostCommandRepository postCommandRepository;
+    private final MessageQueueFactory messageQueueFactory;
     private final KafkaPublisher kafkaPublisher;
     
-    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, KafkaPublisher kafkaPublisher){
+    public PostCommnadServiceImpl(PostCommandRepository postCommandRepository, KafkaPublisher kafkaPublisher, MessageQueueFactory messageQueueFactory){
         this.postCommandRepository = postCommandRepository;
         this.kafkaPublisher = kafkaPublisher;
+        this.messageQueueFactory = messageQueueFactory;
     }
     
     @Override
@@ -47,16 +50,8 @@ public class PostCommnadServiceImpl implements PostCommandService{
                 .writer(userEntity)
                 .build());
 
-        kafkaPublisher.sendMessage(
-            "post", 
-            new PostMessage(
-                "INSERT",
-                postEntity.getId(), 
-                postEntity.getCreatedAt(), 
-                postEntity.getContent(), 
-                postEntity.getWriter().getUsername()
-            )
-        );
+        Type type = Type.valueOf("INSERT");
+        messageQueueFactory.getTye(type).apply(postEntity);
         
         log.info("user: " + userEntity.toString() + " create " + postEntity.toString());
         return postEntity;
@@ -73,16 +68,8 @@ public class PostCommnadServiceImpl implements PostCommandService{
         postEntity.setConent(post.getContent());
         postEntity = postCommandRepository.save(postEntity);
 
-        kafkaPublisher.sendMessage(
-            "post", 
-            new PostMessage(
-                "UPDATE",
-                postEntity.getId(), 
-                postEntity.getCreatedAt(), 
-                postEntity.getContent(), 
-                postEntity.getWriter().getUsername()
-            )
-        );
+        Type type = Type.valueOf("UPDATE");
+        messageQueueFactory.getTye(type).apply(postEntity);
 
         log.info(postEntity.toString() + " is updated");
 
@@ -95,15 +82,11 @@ public class PostCommnadServiceImpl implements PostCommandService{
         if(userEntity == null){
             throw new ExpiredSessionException("만료된 세션");
         }
-
+        Post postEntity = postCommandRepository.findByIdAndWriter(id, userEntity).orElseThrow(() -> new NotFoundException(id + " post not found"));
         postCommandRepository.deleteByIdAndWriter(id, userEntity);
-
-        kafkaPublisher.sendMessage(
-            "post", 
-            PostMessage.builder()
-                .type("DELETE")
-                .id(id)
-                .build());
+        
+        Type type = Type.valueOf("DELETE");
+        messageQueueFactory.getTye(type).apply(postEntity);
     
         log.info("post " + id + " is deleted");
     }

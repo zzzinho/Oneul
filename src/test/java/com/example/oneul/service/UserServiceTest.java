@@ -63,17 +63,17 @@ public class UserServiceTest {
     @Test
     public void loginTest() throws Exception {
         // given
-            LoginDTO loginDTO = createLoginDTO();
-            UserEntity loginUser = loginDTO.toEntity();
+        LoginDTO loginDTO = createLoginDTO();
+        UserEntity loginUser = loginDTO.toEntity();
 
         // mocking 
-            Long mockUserId = 1L;
-            UserEntity userEntity = mockUser(mockUserId);
-            given(userRepository.findByUsername(loginUser.getUsername())).willReturn(Optional.ofNullable(userEntity));
-            given(passwordEncoder.matches(any(), eq(userEntity.getPassword()))).willReturn(true);
+        Long mockUserId = 1L;
+        UserEntity userEntity = mockUser(mockUserId);
+        given(userRepository.findByUsername(loginUser.getUsername())).willReturn(Optional.ofNullable(userEntity));
+        given(passwordEncoder.matches(any(), eq(userEntity.getPassword()))).willReturn(true);
 
         // when
-            UserEntity user = userService.login(userEntity, httpSession);
+        UserEntity user = userService.login(userEntity, httpSession);
 
         // then
         assertNotEquals(httpSession.getAttribute("user"), null);

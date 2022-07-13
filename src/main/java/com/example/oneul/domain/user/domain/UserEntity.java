@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.oneul.domain.user.exception.WrongUsernameAndPasswordException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user")
@@ -23,8 +24,10 @@ public class UserEntity implements Serializable {
     private Long id;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
+    @JsonIgnore
     @CreationTimestamp
     @Column(name = "createAt", nullable = false, updatable = false)
     private LocalDateTime createdAt;

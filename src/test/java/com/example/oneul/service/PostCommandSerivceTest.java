@@ -26,6 +26,7 @@ import com.example.oneul.domain.post.service.command.PostCommnadServiceImpl;
 import com.example.oneul.domain.user.domain.UserEntity;
 import com.example.oneul.infra.dto.PostMessage;
 import com.example.oneul.infra.kafka.KafkaPublisher;
+import com.example.oneul.infra.kafka.service.MessageQueueFactory;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
@@ -35,10 +36,11 @@ public class PostCommandSerivceTest {
     @Mock private KafkaPublisher kafkaPublisher;
     protected MockHttpSession httpSession;
     @Mock private UserEntity mockWriter;
+    @Mock private MessageQueueFactory messageQueueFactory;
 
     @BeforeEach
     public void setUp() throws Exception {
-        postCommandService = new PostCommnadServiceImpl(postCommandRepository, kafkaPublisher);
+        postCommandService = new PostCommnadServiceImpl(postCommandRepository, kafkaPublisher, messageQueueFactory);
         httpSession = new MockHttpSession();
         httpSession.setAttribute("user", mockWriter);
     }
