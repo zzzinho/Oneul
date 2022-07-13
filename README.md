@@ -65,6 +65,12 @@ One Day Lifetime SNS
     │   │                   ├── dto
     │   │                   │   └── PostMessage.java
     │   │                   └── kafka
+    │   │                       ├── service
+    │   │                       │   ├── MessageQueueSerivce.java
+    │   │                       │   ├── MessageQueueFactory.java
+    │   │                       │   ├── InsertMessageService.java
+    │   │                       │   ├── UpdateMessageService.java
+    │   │                       │   └── DeleteMessageService.java
     │   │                       ├── KafkaPublisher.java
     │   │                       └── KafkaSubscriber.java
     │   └── resources
