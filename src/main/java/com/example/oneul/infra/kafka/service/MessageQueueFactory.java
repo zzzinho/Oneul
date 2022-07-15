@@ -14,20 +14,20 @@ import com.example.oneul.infra.kafka.Type;
 
 @Component
 public class MessageQueueFactory {
-    private final Map<Type, Function<Post, PostMessage>> meessageQueueServiceMap = new HashMap<>();    
+    private final Map<Type, Function<Post, PostMessage>> messageQueueServiceMap = new HashMap<>();    
 
-    public MessageQueueFactory(List<MessageQueueService> meessageQueueServices) {
-        if(CollectionUtils.isEmpty(meessageQueueServices)){
+    public MessageQueueFactory(List<MessageQueueService> messageQueueServices) {
+        if(CollectionUtils.isEmpty(messageQueueServices)){
             throw new IllegalArgumentException("메시지 큐 구현체가 존재하지 않습니다.");
         }
 
-        for(MessageQueueService service : meessageQueueServices){
+        for(MessageQueueService service : messageQueueServices){
             Function<Post, PostMessage> transaction = service::transaction;
-            this.meessageQueueServiceMap.put(service.getMessageType(), transaction);
+            this.messageQueueServiceMap.put(service.getMessageType(), transaction);
         }
     }
 
     public Function<Post, PostMessage> getTye(Type type){
-        return meessageQueueServiceMap.get(type);
+        return messageQueueServiceMap.get(type);
     }
 }
